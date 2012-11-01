@@ -15,6 +15,9 @@
       this.settings = {
         disabledClass : 'disabled',
         selectCallbackOnInit: false,
+        selectInitCallback: function (selectableLi, selectedOption) {
+          return !selectableLi.hasClass(ms.data('settings').disabledClass) && selectedOption.prop('selected');
+        },
         keepOrder : false,
         dblClick : false
       };
@@ -191,7 +194,7 @@
           haveToSelect = null;
 
       if (method == 'init'){
-        haveToSelect = !selectableLi.hasClass(ms.data('settings').disabledClass) && selectedOption.prop('selected');
+        haveToSelect = ms.data('settings').selectInitCallback.apply(this, [selectableLi, selectedOption]);
       } else {
         haveToSelect = !selectableLi.hasClass(ms.data('settings').disabledClass);
         ms.focus();
